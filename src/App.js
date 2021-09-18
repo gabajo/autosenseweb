@@ -1,28 +1,29 @@
-import {useState, useEffect} from "react"
+import { useState, useEffect } from "react"
 import Map from "./components/Map"
-const API= require("./API.js")
+const API = require("./API.js")
 
 function App() {
 
 
-      const [stations, setStations] = useState()
+  const [stations, setStations] = useState()
 
-   useEffect(() => {
+  useEffect(() => {
 
     async function fetchData() {
-  
+
       await API.getStations(setStations);
 
     }
     fetchData()
 
-    
+
 
   }, []);
 
   return (
-   
-  <Map stations={stations} />
+
+    <Map stations={stations} />
+
   )
 }
 
