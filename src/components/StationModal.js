@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 
 import ProductContent from "./ProductContent"
+import EditableField from './EditableField';
 
 const style = {
   position: 'absolute',
@@ -29,8 +30,9 @@ export default function StationModal({ modalIsOpen, closeModal, station }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <h3 style={{ marginBottom: "0.2em" }} >{station?.name}</h3>
-          <div>{station?.address}, {station?.city}</div>
+
+          <h3 style={{ marginBottom: "0.2em", marginTop: "0.2em" }} ><EditableField value={station?.name} /></h3>
+          <h5 style={{ marginBottom: "1em", marginTop: "0.2em" }}>{station?.address}, {station?.city}</h5>
 
           <div id="modal-modal-description" sx={{ mt: 2 }}>
             {station?.products.map((product, idx) => {
