@@ -11,8 +11,6 @@ export default function Map({ stations, setStations }) {
 
 
   function openModal() {
-
-
     setModalIsOpen(true);
   }
 

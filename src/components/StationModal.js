@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ProductContent from "./ProductContent"
 import EditableField from './EditableField';
+import BaseModal from './BaseModal';
 
 const API = require("../API.js")
 
@@ -48,12 +48,7 @@ export default function StationModal({ modalIsOpen, closeModal, station, setStat
   return (
     <div>
 
-      <Modal
-        open={modalIsOpen}
-        onClose={closeModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+      <BaseModal modalIsOpen={modalIsOpen} closeModal={closeModal}>
         <Box sx={style}>
 
           <h3 style={{ marginBottom: "0.2em", marginTop: "0.2em" }} ><EditableField val={val} setVal={setVal} onSubmit={onSubmit} /></h3>
@@ -71,7 +66,7 @@ export default function StationModal({ modalIsOpen, closeModal, station, setStat
           </div>
           {trashIcon}
         </Box>
-      </Modal>
+      </BaseModal>
     </div>
   );
 }
