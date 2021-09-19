@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -35,6 +35,16 @@ export default function StationModal({ modalIsOpen, closeModal, station, setStat
 
   }
 
+  const [val, setVal] = useState()
+
+  function onSubmit() {
+    API.editStationName(station?.id, setStations, { val })
+  }
+
+  useEffect(() => {
+    setVal(station?.name)
+  }, [station?.name])
+
   return (
     <div>
 
@@ -46,7 +56,7 @@ export default function StationModal({ modalIsOpen, closeModal, station, setStat
       >
         <Box sx={style}>
 
-          <h3 style={{ marginBottom: "0.2em", marginTop: "0.2em" }} ><EditableField value={station} setStations={setStations} /></h3>
+          <h3 style={{ marginBottom: "0.2em", marginTop: "0.2em" }} ><EditableField val={val} setVal={setVal} onSubmit={onSubmit} /></h3>
           <h5 style={{ marginBottom: "1em", marginTop: "0.2em" }}>{station?.address}, {station?.city}</h5>
 
           <div id="modal-modal-description" sx={{ mt: 2 }}>
