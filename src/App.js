@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import Map from "./components/Map"
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import BaseModal from "./components/BaseModal";
+import NewStationModal from "./components/NewStationModal";
 
 const API = require("./API.js")
 
@@ -31,9 +31,8 @@ function App() {
 
     <div>
       {plusIcon}
-      <BaseModal modalIsOpen={modalIsOpen} closeModal={closeModal}>
-        <div>asd</div>
-      </BaseModal>
+      <NewStationModal modalIsOpen={modalIsOpen} closeModal={closeModal} />
+
       <Map stations={stations} setStations={setStations} />
     </div>
 
