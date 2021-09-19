@@ -23,7 +23,8 @@ export default function ProductContent({ stationId, product, prices, setStations
                 {prices.map((idx, pricesKey) => {
                     if (prices[pricesKey].product_id === product.product_id) {
 
-                        return (<div style={{ display: "flex" }} key={idx}><EditableField val={val} value={prices[pricesKey].price} setVal={setVal} onSubmit={onSubmit} />{prices[pricesKey].currency}</div>)
+                        return (<div style={{ display: "flex" }} key={idx}><EditableField val={val} value={prices[pricesKey].price} setVal={setVal} onSubmit={onSubmit} >
+                            <div style={{ marginRight: "1em" }}>{prices[pricesKey].currency}</div></EditableField></div>)
                     } return false
                 })}
             </div>
