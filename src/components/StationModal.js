@@ -62,7 +62,7 @@ export default function StationModal({ modalIsOpen, closeModal, station, setStat
           <div id="modal-modal-description" sx={{ mt: 2 }}>
             {station?.products.map((product, idx) => {
               return (
-                <ProductContent key={idx} idx={idx} product={product} prices={station.prices} setStations={setStations} />
+                <ProductContent key={idx} product={product} prices={station.prices} setStations={setStations} stationId={station?.id} />
               )
 
             })}

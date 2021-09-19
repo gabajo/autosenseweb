@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { faEdit, faTimes, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const API = require("../API.js")
 
-export default function EditableField({ val, setVal, onSubmit }) {
+
+export default function EditableField({ value, val, setVal, onSubmit }) {
     const [isEditing, setIsEditing] = useState()
 
 
@@ -31,13 +31,13 @@ export default function EditableField({ val, setVal, onSubmit }) {
         <div>
             {isEditing ?
                 <div style={style}>
-                    <input type="text" value={val} onChange={e => setVal(e.target.value)} />
+                    <input type="text" value={val ? val : value} onChange={e => setVal(e.target.value)} />
                     {checkIcon}
                     {closeIcon}
                 </div>
                 :
                 <div style={style}>
-                    {val}
+                    {val ? val : value}
                     {editIcon}
                 </div>
             }
