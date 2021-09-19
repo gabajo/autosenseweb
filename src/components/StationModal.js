@@ -26,7 +26,7 @@ const style = {
 export default function StationModal({ modalIsOpen, closeModal, station, setStations }) {
 
 
-  const trashIcon = <FontAwesomeIcon style={{ cursor: "pointer" }} onClick={handleDelete} icon={faTrash} title="Delete Station" />;
+  const trashIcon = <FontAwesomeIcon style={{ cursor: "pointer", float: "right" }} onClick={handleDelete} icon={faTrash} title="Delete Station" />;
 
   function handleDelete() {
 
@@ -57,9 +57,9 @@ export default function StationModal({ modalIsOpen, closeModal, station, setStat
 
             })}
 
-            {trashIcon}
 
           </div>
+          {trashIcon}
         </Box>
       </Modal>
     </div>
