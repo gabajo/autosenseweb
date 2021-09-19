@@ -1,9 +1,15 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ProductContent from "./ProductContent"
 import EditableField from './EditableField';
+
+const API = require("../API.js")
+
+
+
 
 const style = {
   position: 'absolute',
@@ -17,8 +23,17 @@ const style = {
   p: 4,
 };
 
-export default function StationModal({ modalIsOpen, closeModal, station }) {
+export default function StationModal({ modalIsOpen, closeModal, station, setStations }) {
 
+
+  const trashIcon = <FontAwesomeIcon style={{ cursor: "pointer" }} onClick={handleDelete} icon={faTrash} title="Delete Station" />;
+
+  function handleDelete() {
+
+    API.deleteStation(station.id, setStations)
+    closeModal()
+
+  }
 
   return (
     <div>
@@ -31,7 +46,7 @@ export default function StationModal({ modalIsOpen, closeModal, station }) {
       >
         <Box sx={style}>
 
-          <h3 style={{ marginBottom: "0.2em", marginTop: "0.2em" }} ><EditableField value={station?.name} /></h3>
+          <h3 style={{ marginBottom: "0.2em", marginTop: "0.2em" }} ><EditableField station={station} setStations={setStations} /></h3>
           <h5 style={{ marginBottom: "1em", marginTop: "0.2em" }}>{station?.address}, {station?.city}</h5>
 
           <div id="modal-modal-description" sx={{ mt: 2 }}>
@@ -41,6 +56,9 @@ export default function StationModal({ modalIsOpen, closeModal, station }) {
               )
 
             })}
+
+            {trashIcon}
+
           </div>
         </Box>
       </Modal>

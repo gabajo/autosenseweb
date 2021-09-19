@@ -22,7 +22,7 @@ function App() {
 
   return (
 
-    <Map stations={stations} />
+    <Map stations={stations} setStations={setStations} />
 
   )
 }

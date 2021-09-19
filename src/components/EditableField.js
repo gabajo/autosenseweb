@@ -1,13 +1,16 @@
-import { faEdit, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react"
+import { faEdit, faTimes, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { useEffect, useState } from "react"
-export default function EditableField({ value }) {
+const API = require("../API.js")
+
+export default function EditableField({ station, setStations }) {
     const [isEditing, setIsEditing] = useState()
     const [val, setVal] = useState()
 
     const editIcon = <FontAwesomeIcon style={{ cursor: "pointer" }} onClick={handleEditing} icon={faEdit} title="Edit" />;
-    const cartIcon = <FontAwesomeIcon icon={faShoppingCart} title="Carrello" />;
+    const closeIcon = <FontAwesomeIcon style={{ cursor: "pointer" }} onClick={handleEditing} icon={faTimes} title="Confirm" />;
+    const checkIcon = <FontAwesomeIcon style={{ cursor: "pointer" }} onClick={handleSubmit} icon={faCheck} title="Undo" />;
 
     function handleEditing() {
         setIsEditing(!isEditing)
@@ -15,11 +18,14 @@ export default function EditableField({ value }) {
     }
 
     useEffect(() => {
-        setVal(value)
-    }, [value])
+        setVal(station?.name)
+    }, [station?.name])
 
 
     function handleSubmit() {
+        API.editStationName(station.id, setStations, { val })
+        handleEditing()
+
 
     }
 
@@ -28,12 +34,12 @@ export default function EditableField({ value }) {
             {isEditing ?
                 <div style={style}>
                     <input type="text" value={val} onChange={e => setVal(e.target.value)} />
-                    <div onClick={handleSubmit}>icona conferma</div>
-                    <div onClick={handleEditing}>icona cancella</div>
+                    {checkIcon}
+                    {closeIcon}
                 </div>
                 :
                 <div style={style}>
-                    {value}
+                    {val ? val : station?.name}
                     {editIcon}
                 </div>
             }
