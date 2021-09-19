@@ -1,6 +1,6 @@
 import PointContent from './PointContent';
 
-export default function ProductContent({ idx, product, prices }) {
+export default function ProductContent({ idx, product, prices, setStations }) {
 
 
 
@@ -11,7 +11,7 @@ export default function ProductContent({ idx, product, prices }) {
             {product.points.map((point) => {
 
                 return (
-                    <PointContent key={point.id} point={point} product={product} prices={prices} />
+                    <PointContent key={point.id} point={point} product={product} prices={prices} setStations={setStations} />
 
                 )
 

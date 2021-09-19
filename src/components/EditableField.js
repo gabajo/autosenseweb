@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const API = require("../API.js")
 
-export default function EditableField({ station, setStations }) {
+export default function EditableField({ value, setStations }) {
     const [isEditing, setIsEditing] = useState()
     const [val, setVal] = useState()
 
@@ -18,12 +18,12 @@ export default function EditableField({ station, setStations }) {
     }
 
     useEffect(() => {
-        setVal(station?.name)
-    }, [station?.name])
+        setVal(value?.name)
+    }, [value?.name])
 
 
     function handleSubmit() {
-        API.editStationName(station.id, setStations, { val })
+        API.editStationName(value.id, setStations, { val })
         handleEditing()
 
 
@@ -39,7 +39,7 @@ export default function EditableField({ station, setStations }) {
                 </div>
                 :
                 <div style={style}>
-                    {val ? val : station?.name}
+                    {val ? val : value?.name}
                     {editIcon}
                 </div>
             }

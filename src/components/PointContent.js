@@ -1,6 +1,6 @@
+import EditableField from "./EditableField"
 
-
-export default function PointContent({ point, product, prices }) {
+export default function PointContent({ point, product, prices, setStations }) {
     return (
 
 
@@ -11,6 +11,7 @@ export default function PointContent({ point, product, prices }) {
             {prices.map((idx, pricesKey) => {
                 if (prices[pricesKey].product_id === product.product_id) {
                     return (<div key={idx}>{prices[pricesKey].price} {prices[pricesKey].currency}</div>)
+                    // return (<div key={idx}><EditableField value={prices[pricesKey]} setStations={setStations} />{prices[pricesKey].currency}</div>)
                 } return false
             })}
         </span>

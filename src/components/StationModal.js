@@ -46,13 +46,13 @@ export default function StationModal({ modalIsOpen, closeModal, station, setStat
       >
         <Box sx={style}>
 
-          <h3 style={{ marginBottom: "0.2em", marginTop: "0.2em" }} ><EditableField station={station} setStations={setStations} /></h3>
+          <h3 style={{ marginBottom: "0.2em", marginTop: "0.2em" }} ><EditableField value={station} setStations={setStations} /></h3>
           <h5 style={{ marginBottom: "1em", marginTop: "0.2em" }}>{station?.address}, {station?.city}</h5>
 
           <div id="modal-modal-description" sx={{ mt: 2 }}>
             {station?.products.map((product, idx) => {
               return (
-                <ProductContent key={idx} idx={idx} product={product} prices={station.prices} />
+                <ProductContent key={idx} idx={idx} product={product} prices={station.prices} setStations={setStations} />
               )
 
             })}
