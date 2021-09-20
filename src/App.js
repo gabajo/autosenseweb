@@ -20,6 +20,7 @@ function App() {
 
 
   function openModal() {
+
     setModalIsOpen(true);
   }
 

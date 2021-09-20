@@ -9,7 +9,7 @@ export default function PointContent({ point }) {
 
         <span style={{ display: "flex", justifyContent: "space-evenly" }} >
 
-            <div>{point.id}</div>
+            <div>{point.point_number}</div>
             <div>{point.status}</div>
 
         </span>

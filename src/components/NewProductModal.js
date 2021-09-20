@@ -38,7 +38,7 @@ export default function NewProductModal({ modalIsOpen, closeModal, setProducts }
     const [points, setPoints] = useState([])
     const [addingPoint, setAddingPoint] = useState(false)
 
-    const [productId, setProductId] = useState()
+    const [productName, setProductName] = useState()
     const [price, setPrice] = useState()
     const [currency, setCurrency] = useState()
 
@@ -55,7 +55,7 @@ export default function NewProductModal({ modalIsOpen, closeModal, setProducts }
 
 
     function saveProduct() {
-        product.id = productId
+        product.name = productName
         product.price = price
         product.currency = currency
         product.points = points
@@ -110,7 +110,7 @@ export default function NewProductModal({ modalIsOpen, closeModal, setProducts }
                     <Typography id="modal-modal-title" variant="h6" component="h2">New Product</Typography>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <TextField style={{ width: "100%" }} label="Product id" variant="standard" onChange={(e) => setProductId(e.target.value)} />
+                            <TextField style={{ width: "100%" }} label="Product Name" variant="standard" onChange={(e) => setProductName(e.target.value)} />
                         </Grid>
                         <Grid item xs={6}>
                             <TextField label="Price" variant="standard" onChange={(e) => setPrice(e.target.value)} />

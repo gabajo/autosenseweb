@@ -1,11 +1,9 @@
 async function getStations(setStations) {
+    console.log("getStations");
     const options = {
         method: "GET",
-
         headers: {
             "Content-Type": "application/json",
-
-
         },
     };
 
@@ -15,9 +13,42 @@ async function getStations(setStations) {
     setStations(json)
 }
 
+async function getProducts(setProducts, stationId) {
+    console.log("getProducts");
+    const options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+
+    const resp = await fetch(process.env.REACT_APP_API_URL + "products/" + stationId, options)
+    const json = await resp.json();
+
+    setProducts(json)
+}
 
 
-async function deleteStation(stationId, setStations) {
+async function getPoints(setPoints, productId) {
+    console.log("getProducts");
+    const options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+
+    const resp = await fetch(process.env.REACT_APP_API_URL + "points/" + productId, options)
+    const json = await resp.json();
+
+
+    setPoints(json)
+}
+
+
+
+async function deleteStation(stationId, setStations, stations) {
+
     const options = {
         method: "DELETE",
         headers: {
@@ -51,7 +82,7 @@ async function editStationName(stationId, setStations, newName) {
 
 }
 
-async function editProductPrice(stationId, productId, setStations, newPrice) {
+async function editProductPrice(stationId, productId, setProducts, newPrice) {
 
 
     const options = {
@@ -66,7 +97,9 @@ async function editProductPrice(stationId, productId, setStations, newPrice) {
     const resp = await fetch(process.env.REACT_APP_API_URL + "edit/price/" + stationId + "/" + productId, options)
     const json = await resp.json();
 
-    setStations(json)
+    console.log(json);
+
+    setProducts(json)
 
 }
 
@@ -92,4 +125,4 @@ async function saveStation(station, setStations) {
 
 
 
-export { getStations, deleteStation, editStationName, editProductPrice, saveStation }
+export { getStations, getProducts, getPoints, deleteStation, editStationName, editProductPrice, saveStation }

@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react"
 import { faEdit, faTimes, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { TextField } from "@mui/material";
 
 
 
 
 export default function EditableField({ value, val, setVal, onSubmit, children }) {
     const [isEditing, setIsEditing] = useState()
+
     const editIcon = <FontAwesomeIcon style={{ cursor: "pointer" }} onClick={handleEditing} icon={faEdit} title="Edit" />;
     const closeIcon = <FontAwesomeIcon style={{ cursor: "pointer" }} onClick={handleEditing} icon={faTimes} title="Confirm" />;
     const checkIcon = <FontAwesomeIcon style={{ cursor: "pointer" }} onClick={handleSubmit} icon={faCheck} title="Undo" />;
@@ -35,7 +37,7 @@ export default function EditableField({ value, val, setVal, onSubmit, children }
         <div>
             {isEditing ?
                 <div style={style}>
-                    <input style={{ marginRight: "1em" }} type="text" value={val ? val : value} onChange={e => setVal(e.target.value)} />
+                    <TextField variant="standard" label="Name" value={val ? val : value} onChange={e => setVal(e.target.value)} />
                     {children}
                     {checkIcon}
                     {closeIcon}

@@ -1,37 +1,34 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import EditableField from "./EditableField"
 import PointContent from './PointContent';
 const API = require("../API.js")
 
-export default function ProductContent({ stationId, product, prices, setStations }) {
+export default function ProductContent({ stationId, product, setProducts }) {
     const [val, setVal] = useState()
-
+    const [points, setPoints] = useState()
 
     function onSubmit() {
-        API.editProductPrice(stationId, product?.product_id, setStations, { val })
+        API.editProductPrice(stationId, product.product_id, setProducts, { val })
     }
 
 
-
+    useEffect(() => {
+        API.getPoints(setPoints, product.product_id)
+    }, [])
 
     return (
         <div>
 
             <div style={{ display: "flex" }}>
-                <div style={{ marginRight: "1em" }}>{product.product_id}</div>
+                <div style={{ marginRight: "1em" }}>{product.product_name}</div>
+                <div style={{ marginRight: "1em" }}><EditableField val={val} value={product.price} setVal={setVal} onSubmit={onSubmit} > <div> {product.currency}</div> </EditableField></div>
 
-                {prices.map((idx, pricesKey) => {
-                    if (prices[pricesKey].product_id === product.product_id) {
 
-                        return (<div style={{ display: "flex" }} key={idx}><EditableField val={val} value={prices[pricesKey].price} setVal={setVal} onSubmit={onSubmit} >
-                            <div style={{ marginRight: "1em" }}>{prices[pricesKey].currency}</div></EditableField></div>)
-                    } return false
-                })}
             </div>
-            {product.points.map((point) => {
+            {points?.map((point) => {
 
                 return (
-                    <PointContent key={point.id} point={point} product={product} prices={prices} setStations={setStations} />
+                    <PointContent key={point.id} point={point} product={product} />
 
                 )
 

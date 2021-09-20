@@ -1,17 +1,21 @@
 
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import StationModal from "./StationModal"
 
+const API = require("../API.js")
 
 export default function Map({ stations, setStations }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedStation, setSelectedStation] = useState();
+  const [products, setProducts] = useState()
 
 
 
   function openModal() {
     setModalIsOpen(true);
+
+
   }
 
   function closeModal() {
@@ -20,7 +24,7 @@ export default function Map({ stations, setStations }) {
 
   return (
     <>
-      <StationModal modalIsOpen={modalIsOpen} closeModal={closeModal} station={selectedStation} setStations={setStations} />
+      <StationModal modalIsOpen={modalIsOpen} closeModal={closeModal} products={products} setProducts={setProducts} station={selectedStation} stations={stations} setStations={setStations} />
 
 
       <MapContainer
@@ -47,8 +51,10 @@ export default function Map({ stations, setStations }) {
               eventHandlers={{
                 click: (e) => {
 
-                  openModal();
                   setSelectedStation(station)
+
+                  API.getProducts(setProducts, station.station_id)
+                  openModal();
                 },
               }}
               key={idx}

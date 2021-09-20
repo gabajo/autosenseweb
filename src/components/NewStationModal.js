@@ -53,8 +53,8 @@ export default function NewStationModal({ modalIsOpen, closeModal, setStations }
     }
 
 
-    console.log("products");
-    console.log(products);
+    // console.log("products");
+    // console.log(products);
 
     function saveStation() {
         let station = {}
@@ -67,6 +67,8 @@ export default function NewStationModal({ modalIsOpen, closeModal, setStations }
         console.log("save");
 
         API.saveStation(station, setStations)
+
+        closeModal()
 
     }
 
@@ -113,7 +115,7 @@ export default function NewStationModal({ modalIsOpen, closeModal, setStations }
                             return (
                                 < >
                                     <Grid item xs={12} key={products.length}>
-                                        <Typography id="modal-modal-title" variant="body1" >Product ID: {product.id}</Typography>
+                                        <Typography id="modal-modal-title" variant="body1" >Product: {product.name}</Typography>
                                     </Grid>
                                     <Grid item xs={6} key={products.length + 1}>
                                         <Typography id="modal-modal-title" variant="body1" >Price: {product.price}</Typography>

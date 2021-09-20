@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ProductContent from "./ProductContent"
 import EditableField from './EditableField';
 import BaseModal from './BaseModal';
+import Typography from '@mui/material/Typography';
 
 const API = require("../API.js")
 
@@ -23,14 +24,14 @@ const style = {
   p: 4,
 };
 
-export default function StationModal({ modalIsOpen, closeModal, station, setStations }) {
+export default function StationModal({ modalIsOpen, closeModal, setProducts, products, station, stations, setStations }) {
 
 
   const trashIcon = <FontAwesomeIcon style={{ cursor: "pointer", float: "right" }} onClick={handleDelete} icon={faTrash} title="Delete Station" />;
 
   function handleDelete() {
 
-    API.deleteStation(station.id, setStations)
+    API.deleteStation(station.station_id, setStations, stations)
     closeModal()
 
   }
@@ -38,7 +39,7 @@ export default function StationModal({ modalIsOpen, closeModal, station, setStat
   const [val, setVal] = useState()
 
   function onSubmit() {
-    API.editStationName(station?.id, setStations, { val })
+    API.editStationName(station.stationId, setStations, stations, { val })
   }
 
   useEffect(() => {
@@ -51,13 +52,13 @@ export default function StationModal({ modalIsOpen, closeModal, station, setStat
       <BaseModal modalIsOpen={modalIsOpen} closeModal={closeModal}>
         <Box sx={style}>
 
-          <h3 style={{ marginBottom: "0.2em", marginTop: "0.2em" }} ><EditableField val={val} setVal={setVal} onSubmit={onSubmit} /></h3>
-          <h5 style={{ marginBottom: "1em", marginTop: "0.2em" }}>{station?.address}, {station?.city}</h5>
+          <Typography id="modal-modal-title" variant="h5" component="h2"><EditableField val={val} setVal={setVal} onSubmit={onSubmit} /></Typography>
+          <Typography variant="h6" component="h2">{station?.address}, {station?.city}</Typography>
 
           <div id="modal-modal-description" sx={{ mt: 2 }}>
-            {station?.products.map((product, idx) => {
+            {products?.map((product, idx) => {
               return (
-                <ProductContent key={idx} product={product} prices={station.prices} setStations={setStations} stationId={station?.id} />
+                <ProductContent key={idx} product={product} prices={station.prices} setProducts={setProducts} stationId={station.station_id} />
               )
 
             })}
