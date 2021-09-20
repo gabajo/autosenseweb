@@ -71,5 +71,25 @@ async function editProductPrice(stationId, productId, setStations, newPrice) {
 }
 
 
+async function saveStation(station, setStations) {
 
-export { getStations, deleteStation, editStationName, editProductPrice }
+
+    const options = {
+        method: "POST",
+        body: JSON.stringify(station),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+
+
+    const resp = await fetch(process.env.REACT_APP_API_URL + "newstation", options)
+    const json = await resp.json();
+
+    setStations(json)
+
+}
+
+
+
+export { getStations, deleteStation, editStationName, editProductPrice, saveStation }

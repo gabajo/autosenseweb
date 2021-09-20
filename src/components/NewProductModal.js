@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
-import { faPlus, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ProductContent from "./ProductContent"
-import EditableField from './EditableField';
+
+
 import BaseModal from './BaseModal';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -12,7 +12,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
 
-const API = require("../API.js")
+
 
 
 
@@ -29,15 +29,20 @@ const style = {
     p: 4,
 };
 
-export default function NewProductModal({ modalIsOpen, closeModal, products, setProducts }) {
+export default function NewProductModal({ modalIsOpen, closeModal, setProducts }) {
 
-
+    const closeIcon = <FontAwesomeIcon icon={faTimes} />;
     const plusIcon = <FontAwesomeIcon icon={faPlus} />;
-    const checkIcon = <FontAwesomeIcon style={{ height: "100%" }} icon={faCheck} />;
+    const checkIcon = <FontAwesomeIcon icon={faCheck} />;
 
     const [points, setPoints] = useState([])
     const [addingPoint, setAddingPoint] = useState(false)
-    // const [point, setPoint] = useState()
+
+    const [productId, setProductId] = useState()
+    const [price, setPrice] = useState()
+    const [currency, setCurrency] = useState()
+
+
     let point = {};
     let product = {};
     function addPoint() {
@@ -50,26 +55,39 @@ export default function NewProductModal({ modalIsOpen, closeModal, products, set
 
 
     function saveProduct() {
+        product.id = productId
+        product.price = price
+        product.currency = currency
         product.points = points
         setProducts(products => [...products, product])
+        setPoints([])
         closeModal()
     }
 
 
+    function removePoint(point) {
+        setPoints(points.filter(item => item !== point));
+    }
+
     const NewPoint = () => {
         return (
             <>
-                <Grid item xs={5}>
-                    <Item><TextField label="Point id" readOnly value={points.length + 1} variant="standard" onChange={(e) => point.id = e.target.value} /></Item>
+                <Grid item xs={4}>
+                    <TextField label="Point id" readOnly value={points.length + 1} variant="standard" onChange={(e) => point.id = e.target.value} />
                 </Grid>
-                <Grid item xs={5}>
-                    <Item><TextField label="Availability" required variant="standard" onChange={(e) => point.availability = e.target.value} /></Item>
+                <Grid item xs={4}>
+                    <TextField label="Availability" required variant="standard" onChange={(e) => point.availability = e.target.value} />
                 </Grid>
                 <Grid item xs={2}>
-                    <Item onClick={addPoint} style={{ height: "75%", cursor: "pointer" }} title="Save point">{checkIcon}</Item>
+                    <Item onClick={addPoint} style={{ cursor: "pointer" }} title="Save point">{checkIcon}</Item>
+                </Grid>
+                <Grid item xs={2}>
+                    <Item onClick={() => setAddingPoint(false)} style={{ cursor: "pointer" }} title="Undo">{closeIcon}</Item>
                 </Grid>
             </>)
     }
+
+
 
 
 
@@ -92,17 +110,17 @@ export default function NewProductModal({ modalIsOpen, closeModal, products, set
                     <Typography id="modal-modal-title" variant="h6" component="h2">New Product</Typography>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <Item><TextField style={{ width: "100%" }} label="Product id" variant="standard" onChange={(e) => product.id = e.target.value} /></Item>
+                            <TextField style={{ width: "100%" }} label="Product id" variant="standard" onChange={(e) => setProductId(e.target.value)} />
                         </Grid>
                         <Grid item xs={6}>
-                            <Item><TextField label="Price" variant="standard" onChange={(e) => product.price = e.target.value} /></Item>
+                            <TextField label="Price" variant="standard" onChange={(e) => setPrice(e.target.value)} />
                         </Grid>
                         <Grid item xs={6}>
-                            <Item><TextField label="Currency" variant="standard" onChange={(e) => product.currency = e.target.value} /></Item>
+                            <TextField label="Currency" variant="standard" onChange={(e) => setCurrency(e.target.value)} />
                         </Grid>
 
                         <Grid item xs={10}>
-                            <Item>Points</Item>
+                            <h3>Points</h3>
 
                         </Grid>
                         <Grid item xs={2}>
@@ -115,11 +133,14 @@ export default function NewProductModal({ modalIsOpen, closeModal, products, set
                         {points?.map((point) => {
                             return (
                                 < >
-                                    <Grid item xs={6} key={points.length}>
-                                        <Item>{point.id}</Item>
+                                    <Grid item xs={5}   >
+                                        {point.id}
                                     </Grid>
-                                    <Grid item xs={6}>
-                                        <Item>{point.availability}</Item>
+                                    <Grid item xs={5} >
+                                        {point.availability}
+                                    </Grid>
+                                    <Grid item xs={2}  >
+                                        <Item onClick={() => removePoint(point)} style={{ cursor: "pointer" }} title="Remove Point">{closeIcon}</Item>
                                     </Grid>
                                 </>
                             );

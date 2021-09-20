@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ProductContent from "./ProductContent"
-import EditableField from './EditableField';
+
+
 import BaseModal from './BaseModal';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -33,9 +33,16 @@ export default function NewStationModal({ modalIsOpen, closeModal, setStations }
 
     const [productModalIsOpen, setProoductModalIsOpen] = useState(false);
     const plusIcon = <FontAwesomeIcon icon={faPlus} />;
+    const checkIcon = <FontAwesomeIcon icon={faCheck} />;
 
-    const [product, setProduct] = useState({})
+
     const [products, setProducts] = useState([])
+
+    const [name, setName] = useState()
+    const [address, setAddress] = useState()
+    const [city, setCity] = useState()
+    const [latitude, setLatitude] = useState()
+    const [longitude, setLongitude] = useState()
 
     function openProductModal() {
         setProoductModalIsOpen(true);
@@ -46,25 +53,24 @@ export default function NewStationModal({ modalIsOpen, closeModal, setStations }
     }
 
 
-    console.log("product");
-    console.log(product);
+    console.log("products");
+    console.log(products);
 
-    // function handleDelete() {
+    function saveStation() {
+        let station = {}
+        station.name = name
+        station.address = address
+        station.city = city
+        station.latitude = latitude
+        station.longitude = longitude
+        station.products = products
+        console.log("save");
 
-    //     API.deleteStation(station.id, setStations)
-    //     closeModal()
+        API.saveStation(station, setStations)
 
-    // }
+    }
 
-    // const [val, setVal] = useState()
 
-    // function onSubmit() {
-    //     API.editStationName(station?.id, setStations, { val })
-    // }
-
-    // useEffect(() => {
-    //     setVal(station?.name)
-    // }, [station?.name])
     const Item = styled(Paper)(({ theme }) => ({
         ...theme.typography.body2,
         padding: theme.spacing(1),
@@ -80,22 +86,22 @@ export default function NewStationModal({ modalIsOpen, closeModal, setStations }
                     <Typography id="modal-modal-title" variant="h6" component="h2">Create a new station</Typography>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <Item><TextField style={{ width: "100%" }} label="Name" variant="standard" /></Item>
+                            <TextField style={{ width: "100%" }} label="Name" variant="standard" onChange={(e) => setName(e.target.value)} />
                         </Grid>
                         <Grid item xs={6}>
-                            <Item><TextField label="Address" variant="standard" /></Item>
+                            <TextField label="Address" variant="standard" onChange={(e) => setAddress(e.target.value)} />
                         </Grid>
                         <Grid item xs={6}>
-                            <Item><TextField label="City" variant="standard" /></Item>
+                            <TextField label="City" variant="standard" onChange={(e) => setCity(e.target.value)} />
                         </Grid>
                         <Grid item xs={6}>
-                            <Item><TextField label="Latitude" variant="standard" /></Item>
+                            <TextField label="Latitude" variant="standard" onChange={(e) => setLatitude(e.target.value)} />
                         </Grid>
                         <Grid item xs={6}>
-                            <Item><TextField label="Longitude" variant="standard" /></Item>
+                            <TextField label="Longitude" variant="standard" onChange={(e) => setLongitude(e.target.value)} />
                         </Grid>
                         <Grid item xs={10}>
-                            <Item>Products</Item>
+                            <h3>Products</h3>
 
                         </Grid>
                         <Grid item xs={2}>
@@ -106,17 +112,37 @@ export default function NewStationModal({ modalIsOpen, closeModal, setStations }
                         {products?.map((product) => {
                             return (
                                 < >
-                                    <Grid item xs={6} key={products.length}>
-                                        <Item>{product.id}</Item>
+                                    <Grid item xs={12} key={products.length}>
+                                        <Typography id="modal-modal-title" variant="body1" >Product ID: {product.id}</Typography>
                                     </Grid>
-                                    {/* <Grid item xs={6}>
-                                        <Item>{point.availability}</Item>
-                                    </Grid> */}
+                                    <Grid item xs={6} key={products.length + 1}>
+                                        <Typography id="modal-modal-title" variant="body1" >Price: {product.price}</Typography>
+                                    </Grid>
+                                    <Grid item xs={6} key={products.length + 2}>
+                                        <Typography id="modal-modal-title" variant="body1" >Currency: {product.currency}</Typography>
+                                    </Grid>
+
+                                    {product.points.map((point) => {
+                                        return (
+                                            <>
+                                                <Grid item xs={2} key={products.length}>
+                                                    <Typography id="modal-modal-title" variant="body1" >{point.id}</Typography>
+                                                </Grid>
+                                                <Grid item xs={2} key={products.length + 1}>
+                                                    <Typography id="modal-modal-title" variant="body1" >{point.availability}</Typography>
+                                                </Grid>
+                                            </>
+                                        )
+                                    })}
+
+
                                 </>
                             );
                         })}
 
-
+                        <Grid item xs={12}>
+                            <Item title="Save Station" style={{ cursor: "pointer" }} onClick={saveStation}>{checkIcon}</Item>
+                        </Grid>
                     </Grid>
 
                 </Box>

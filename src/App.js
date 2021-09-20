@@ -31,7 +31,7 @@ function App() {
 
     <div>
       {plusIcon}
-      <NewStationModal modalIsOpen={modalIsOpen} closeModal={closeModal} />
+      <NewStationModal modalIsOpen={modalIsOpen} closeModal={closeModal} setStations={setStations} />
 
       <Map stations={stations} setStations={setStations} />
     </div>
