@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { faEdit, faTimes, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { TextField } from "@mui/material";
-
+import Grid from '@mui/material/Grid';
 
 
 
@@ -23,31 +23,43 @@ export default function EditableField({ value, val, setVal, onSubmit, children }
 
     }
 
-
-
-
-    function handleSubmit() {
-        onSubmit()
+    async function handleSubmit() {
+        let valid = await onSubmit()
+        if (!valid) {
+            setVal(value)
+        }
         handleEditing()
-
-
     }
 
     return (
-        <div>
+        <div style={{ whiteSpace: "nowrap" }}>
             {isEditing ?
-                <div style={style}>
-                    <TextField variant="standard" label="Name" value={val ? val : value} onChange={e => setVal(e.target.value)} />
-                    {children}
-                    {checkIcon}
-                    {closeIcon}
-                </div>
+                <Grid container>
+                    <Grid item xs={3}>
+                        <TextField variant="standard" defaultValue={value} onChange={e => setVal(e.target.value)} />
+                    </Grid >
+                    <Grid item xs={3}>
+                        {children}
+                    </Grid>
+                    <Grid item xs={3}>
+                        {checkIcon}
+                    </Grid>
+                    <Grid item xs={3}>
+                        {closeIcon}
+                    </Grid>
+                </Grid >
                 :
-                <div style={style}>
-                    <div style={{ marginRight: "1em" }}>{val ? val : value}</div>
-                    {children}
-                    {editIcon}
-                </div>
+                <Grid container>
+                    <Grid item xs={4}>
+                        {val ? val : value}
+                    </Grid >
+                    <Grid item xs={4}>
+                        {children}
+                    </Grid >
+                    <Grid item xs={4}>
+                        {editIcon}
+                    </Grid >
+                </Grid >
             }
         </div>
     )
@@ -55,7 +67,3 @@ export default function EditableField({ value, val, setVal, onSubmit, children }
 
 }
 
-const style = {
-    display: "flex",
-    justifyContent: "space-evenly"
-}

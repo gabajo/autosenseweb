@@ -9,7 +9,6 @@ export default function Map({ stations, setStations }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedStation, setSelectedStation] = useState();
 
-  console.log("map");
   useEffect(() => {
     async function fetchData() {
       await API.getStations(setStations);
@@ -17,10 +16,9 @@ export default function Map({ stations, setStations }) {
     fetchData()
   }, [setStations]);
 
+
   function openModal() {
     setModalIsOpen(true);
-
-
   }
 
   function closeModal() {
@@ -33,7 +31,6 @@ export default function Map({ stations, setStations }) {
       {selectedStation ?
         <StationModal modalIsOpen={modalIsOpen} closeModal={closeModal} station={selectedStation} stations={stations} setStations={setStations} />
         : <></>}
-
 
       <MapContainer
         style={{
@@ -51,8 +48,6 @@ export default function Map({ stations, setStations }) {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-
-
         {stations?.map((station, idx) => {
           return (
             <Marker
@@ -60,16 +55,13 @@ export default function Map({ stations, setStations }) {
                 click: (e) => {
 
                   setSelectedStation(station)
-
-
                   openModal();
+
                 },
               }}
               key={idx}
               position={[station.latitude, station.longitude]}
             />
-
-
           );
         })}
       </MapContainer>

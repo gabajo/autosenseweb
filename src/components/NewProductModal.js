@@ -120,7 +120,7 @@ export default function NewProductModal({ modalIsOpen, closeModal, setProducts }
                         </Grid>
 
                         <Grid item xs={10}>
-                            <h3>Points</h3>
+
 
                         </Grid>
                         <Grid item xs={2}>

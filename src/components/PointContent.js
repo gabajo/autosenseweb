@@ -1,4 +1,4 @@
-
+import Grid from '@mui/material/Grid';
 
 export default function PointContent({ point }) {
 
@@ -6,12 +6,10 @@ export default function PointContent({ point }) {
 
     return (
 
-
-        <span style={{ display: "flex", justifyContent: "space-evenly" }} >
-
-            <div>{point.point_number}</div>
-            <div>{point.status}</div>
-
-        </span>
+        <>
+            <Grid item xs={12}>
+                <div style={{ marginBottom: "1em" }}>{point.point_number} {point.status}</div>
+            </Grid>
+        </>
     )
 }
