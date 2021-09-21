@@ -8,9 +8,14 @@ const API = require("../API.js")
 export default function Map({ stations, setStations }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedStation, setSelectedStation] = useState();
-  const [products, setProducts] = useState()
 
-
+  console.log("map");
+  useEffect(() => {
+    async function fetchData() {
+      await API.getStations(setStations);
+    }
+    fetchData()
+  }, [setStations]);
 
   function openModal() {
     setModalIsOpen(true);
@@ -20,11 +25,14 @@ export default function Map({ stations, setStations }) {
 
   function closeModal() {
     setModalIsOpen(false);
+    setSelectedStation(false)
   }
 
   return (
     <>
-      <StationModal modalIsOpen={modalIsOpen} closeModal={closeModal} products={products} setProducts={setProducts} station={selectedStation} stations={stations} setStations={setStations} />
+      {selectedStation ?
+        <StationModal modalIsOpen={modalIsOpen} closeModal={closeModal} station={selectedStation} stations={stations} setStations={setStations} />
+        : <></>}
 
 
       <MapContainer
@@ -53,7 +61,7 @@ export default function Map({ stations, setStations }) {
 
                   setSelectedStation(station)
 
-                  API.getProducts(setProducts, station.station_id)
+
                   openModal();
                 },
               }}

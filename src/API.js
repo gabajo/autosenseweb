@@ -21,12 +21,13 @@ async function getProducts(setProducts, stationId) {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
+            "Authorization": process.env.REACT_APP_KEY
         },
     };
 
     const resp = await fetch(process.env.REACT_APP_API_URL + "products/" + stationId, options)
     const json = await resp.json();
-
+    console.log(json);
     setProducts(json)
 }
 
@@ -37,6 +38,7 @@ async function getPoints(setPoints, productId) {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
+            "Authorization": process.env.REACT_APP_KEY
         },
     };
 
@@ -55,6 +57,7 @@ async function deleteStation(stationId, setStations, stations) {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
+            "Authorization": process.env.REACT_APP_KEY
         },
     };
 
@@ -67,12 +70,13 @@ async function deleteStation(stationId, setStations, stations) {
 
 async function editStationName(stationId, setStations, newName) {
 
-
+    console.log(newName);
     const options = {
         method: "POST",
         body: JSON.stringify(newName),
         headers: {
             "Content-Type": "application/json",
+            "Authorization": process.env.REACT_APP_KEY
         },
     };
 
@@ -92,6 +96,7 @@ async function editProductPrice(stationId, productId, setProducts, newPrice) {
         body: JSON.stringify(newPrice),
         headers: {
             "Content-Type": "application/json",
+            "Authorization": process.env.REACT_APP_KEY
         },
     };
 
@@ -99,9 +104,13 @@ async function editProductPrice(stationId, productId, setProducts, newPrice) {
     const resp = await fetch(process.env.REACT_APP_API_URL + "edit/price/" + stationId + "/" + productId, options)
     const json = await resp.json();
 
-    console.log(json);
+    if (json.message) {
+        return json
+    } else {
+        setProducts(json)
 
-    setProducts(json)
+    }
+
 
 }
 
@@ -114,6 +123,7 @@ async function saveStation(station, setStations) {
         body: JSON.stringify(station),
         headers: {
             "Content-Type": "application/json",
+            "Authorization": process.env.REACT_APP_KEY
         },
     };
 
@@ -121,7 +131,15 @@ async function saveStation(station, setStations) {
     const resp = await fetch(process.env.REACT_APP_API_URL + "newstation", options)
     const json = await resp.json();
 
-    setStations(json)
+    if (json.message) {
+        return json
+    } else {
+
+        setStations(json)
+
+    }
+
+
 
 }
 

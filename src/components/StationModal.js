@@ -24,9 +24,10 @@ const style = {
   p: 4,
 };
 
-export default function StationModal({ modalIsOpen, closeModal, setProducts, products, station, stations, setStations }) {
+export default function StationModal({ modalIsOpen, closeModal, station, stations, setStations }) {
 
-
+  console.log("stationModal");
+  const [products, setProducts] = useState()
   const trashIcon = <FontAwesomeIcon style={{ cursor: "pointer", float: "right" }} onClick={handleDelete} icon={faTrash} title="Delete Station" />;
 
   function handleDelete() {
@@ -39,12 +40,13 @@ export default function StationModal({ modalIsOpen, closeModal, setProducts, pro
   const [val, setVal] = useState()
 
   function onSubmit() {
-    API.editStationName(station.stationId, setStations, stations, { val })
+    API.editStationName(station.stationId, setStations, { val })
   }
 
   useEffect(() => {
+    API.getProducts(setProducts, station?.station_id)
     setVal(station?.name)
-  }, [station?.name])
+  }, [station?.station_id, station?.name])
 
   return (
     <div>

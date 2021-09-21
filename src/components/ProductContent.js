@@ -1,20 +1,30 @@
 import { useEffect, useState } from "react"
 import EditableField from "./EditableField"
 import PointContent from './PointContent';
+import toast from "react-hot-toast";
 const API = require("../API.js")
 
 export default function ProductContent({ stationId, product, setProducts }) {
     const [val, setVal] = useState()
     const [points, setPoints] = useState()
 
-    function onSubmit() {
-        API.editProductPrice(stationId, product.product_id, setProducts, { val })
+    const errore = (errore) => toast.error(errore);
+
+
+
+    async function onSubmit() {
+        const res = await API.editProductPrice(stationId, product.product_id, setProducts, { val })
+        console.log(res);
+        if (res?.message) {
+            console.log(res.message);
+            errore(res.message)
+        }
     }
 
 
     useEffect(() => {
         API.getPoints(setPoints, product.product_id)
-    }, [])
+    }, [product.product_id])
 
     return (
         <div>
@@ -28,7 +38,7 @@ export default function ProductContent({ stationId, product, setProducts }) {
             {points?.map((point) => {
 
                 return (
-                    <PointContent key={point.id} point={point} product={product} />
+                    <PointContent key={point.point_id} point={point} product={product} />
 
                 )
 

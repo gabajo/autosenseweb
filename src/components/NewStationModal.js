@@ -11,7 +11,7 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import NewProductModal from './NewProductModal';
-
+import toast from "react-hot-toast";
 const API = require("../API.js")
 
 
@@ -50,13 +50,14 @@ export default function NewStationModal({ modalIsOpen, closeModal, setStations }
 
     function closeProductModal() {
         setProoductModalIsOpen(false);
+
     }
 
-
+    const errore = (errore) => toast.error(errore);
     // console.log("products");
     // console.log(products);
 
-    function saveStation() {
+    async function saveStation() {
         let station = {}
         station.name = name
         station.address = address
@@ -66,9 +67,21 @@ export default function NewStationModal({ modalIsOpen, closeModal, setStations }
         station.products = products
         console.log("save");
 
-        API.saveStation(station, setStations)
+        const res = await API.saveStation(station, setStations)
+        if (res?.message) {
 
-        closeModal()
+            errore(res.message)
+        } else {
+            setName(false)
+            setAddress(false)
+            setCity(false)
+            setLatitude(false)
+            setLongitude(false)
+            station = {}
+            setProducts([])
+            closeModal()
+        }
+
 
     }
 
@@ -88,19 +101,19 @@ export default function NewStationModal({ modalIsOpen, closeModal, setStations }
                     <Typography id="modal-modal-title" variant="h6" component="h2">Create a new station</Typography>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <TextField style={{ width: "100%" }} label="Name" variant="standard" onChange={(e) => setName(e.target.value)} />
+                            <TextField required style={{ width: "100%" }} label="Name" variant="standard" onChange={(e) => setName(e.target.value)} />
                         </Grid>
                         <Grid item xs={6}>
-                            <TextField label="Address" variant="standard" onChange={(e) => setAddress(e.target.value)} />
+                            <TextField required label="Address" variant="standard" onChange={(e) => setAddress(e.target.value)} />
                         </Grid>
                         <Grid item xs={6}>
-                            <TextField label="City" variant="standard" onChange={(e) => setCity(e.target.value)} />
+                            <TextField required label="City" variant="standard" onChange={(e) => setCity(e.target.value)} />
                         </Grid>
                         <Grid item xs={6}>
-                            <TextField label="Latitude" variant="standard" onChange={(e) => setLatitude(e.target.value)} />
+                            <TextField required label="Latitude" variant="standard" onChange={(e) => setLatitude(e.target.value)} />
                         </Grid>
                         <Grid item xs={6}>
-                            <TextField label="Longitude" variant="standard" onChange={(e) => setLongitude(e.target.value)} />
+                            <TextField required label="Longitude" variant="standard" onChange={(e) => setLongitude(e.target.value)} />
                         </Grid>
                         <Grid item xs={10}>
                             <h3>Products</h3>
